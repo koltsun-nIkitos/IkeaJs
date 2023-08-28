@@ -1,5 +1,3 @@
-"use strict";
-
 const createCatalog = () =>{
     const catalog = `
     <div class="catalog">
@@ -25,4 +23,4 @@ const createCatalog = () =>{
     document.body.insertAdjacentHTML('beforeend', catalog);
 };
 
-createCatalog();
+export default createCatalog;
