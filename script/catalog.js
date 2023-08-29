@@ -1,8 +1,11 @@
+import generateSubCatalog from './generateSubCatalog.js';
+import { getData } from './getData.js';
+
 
 export const catalog = () =>{
+    const updateSubCatalog = generateSubCatalog();
     const btnBurger = document.querySelector(".btn-burger");
     const catalog = document.querySelector(".catalog");
-    const btnClose = document.getElementById("hnf-menu-close-btn");
     const subCatalog = document.querySelector(".subcatalog");
     const subcatalogHeader = document.querySelector(".subcatalog-header");
     const btnReturn = document.querySelector(".btn-return");
@@ -23,13 +26,22 @@ export const catalog = () =>{
     };
 
 
-    const openSubMenu = (event) =>{
+    const handlerCatalog = (event) =>{
         event.preventDefault();
-        const itemList = event.target.closest('.catalog-list__item');
+        const target = event.target;
+
+        const itemList = target.closest('.catalog-list__item');
         if (itemList){
-            subcatalogHeader.innerHTML = itemList.innerHTML;
-            subCatalog.classList.add('subopen');
+            getData.subCatalog(target.textContent, (data)=>{
+                updateSubCatalog(target.textContent, data);
+                subCatalog.classList.add('subopen');
+            })
+
         };
+
+        if (event.target.closest('.btn-close')){
+            closeMenu();
+        }
     };
 
     const closeSubMenu = () =>{
@@ -38,10 +50,15 @@ export const catalog = () =>{
 
 
     btnBurger.addEventListener("click", openMenu);
-    btnClose.addEventListener("click", closeMenu);
     overlay.addEventListener("click", closeMenu);
-    catalog.addEventListener("click", openSubMenu);
-    btnReturn.addEventListener("click", closeSubMenu);
+    catalog.addEventListener("click", handlerCatalog);
+    subCatalog.addEventListener('click', (event)=>{
+        const btnReturn = event.target.closest(".btn-return");
+
+        if (btnReturn){
+            closeSubMenu();
+        }
+    })
 
 
     document.addEventListener("keydown", (event) =>{
