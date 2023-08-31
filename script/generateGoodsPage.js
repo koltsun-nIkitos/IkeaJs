@@ -2,6 +2,8 @@ import { getData } from "./getData.js";
 
 const wishList = ['idd005', 'idd050', 'idd033'];
 
+const COUNTER = 5;
+
 const generateGoodsPage = () =>{
 
     const mainHeader = document.querySelector(".main-header");
@@ -10,30 +12,42 @@ const generateGoodsPage = () =>{
     const generateCards = (data) =>{
         goodsList.textContent = '';
 
+        if (!data.length ){
+            const goods = document.querySelector('.goods');
+            goods.textContent = location.search === '?wishlist' ? 
+            'Список желаний пуст' :
+            'К сожалению по вашему запросу ничего не найдено';
+        }
+
         data.forEach(item => {
+
+            const {id, name, img, price, description, count } = item;
+
             goodsList.insertAdjacentHTML('afterbegin', 
             `
                 <li class="goods-list__item">
-					<a class="goods-item__link" href="card.html#${item.id}">
+					<a class="goods-item__link" href="card.html#${id}">
 						<article class="goods-item">
 							<div class="goods-item__img">
-								<img src="${item.img[0]}"
-									data-second-image="${item.img[0]}" alt="${item.name}">
+								<img src=${img[0]}
+                                    ${img[1] ? `data-second-image="${img[1]}"` : ''}
+                                    alt="${name}">
 							</div>
-							<p class="goods-item__new">Новинка</p>
-							<h3 class="goods-item__header">${item.name}</h3>
-							<p class="goods-item__description">${item.description}</p>
+                            ${ count > COUNTER  ? `<p class="goods-item__new">Новинка</p>` : '' }
+                            ${ !count  ? `<p class="goods-item__new">Нет в наличии</p>` : '' }
+							<h3 class="goods-item__header">${name}</h3>
+							<p class="goods-item__description">${description}</p>
 							<p class="goods-item__price">
-								<span class="goods-item__price-value">${item.price}</span>
+								<span class="goods-item__price-value">${price}</span>
 								<span class="goods-item__currency"> ₽</span>
 							</p>
-							<button class="btn btn-add-card" aria-label="Добравить в корзину" data-idd="${item.id}"></button>
+                            ${ count  ? `<button class="btn btn-add-card" aria-label="Добравить в корзину" data-idd="${item.id}"></button>` : '' }
+							
 						</article>
 					</a>
 				</li> 
             `);
-            console.log(item);
-            // TODO Доделать картоки товаров
+
         });
     };
 
