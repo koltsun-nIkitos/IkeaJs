@@ -1,4 +1,5 @@
 import { getData } from "./getData.js";
+import userData from "./userData.js";
 
 const NEW_COUNT_ITEM = 6;
 
@@ -8,6 +9,7 @@ const generateItemPage = () =>{
 
         const { category, count, description, id, img, name:ItemName, price, subcategory} = data;
         
+        const breadcrumbLinks = document.querySelectorAll('.breadcrumb__link');
         const goodImages = document.querySelector('.good-images'); 
         const goodItemNew = document.querySelector('.good-item__new'); 
         const goodItemHeader = document.querySelector('.good-item__header'); 
@@ -17,9 +19,15 @@ const generateItemPage = () =>{
         const btnGood = document.querySelector('.btn-good'); 
         const btnAddWishlist = document.querySelector('.btn-add-wishlist'); 
 
-        console.log(data)
+        breadcrumbLinks[0].textContent = category;
+        breadcrumbLinks[0].href = `goods.html?cat=${category}`;
+        breadcrumbLinks[1].textContent = subcategory;
+        breadcrumbLinks[1].href = `goods.html?cat=${subcategory}`;
+        breadcrumbLinks[2].textContent = ItemName;
+        
 
         goodImages.textContent = '';
+
         goodItemHeader.textContent = ItemName;
         goodItemDescription.textContent = description;
         goodItemPriceValue.textContent = price;
@@ -40,6 +48,15 @@ const generateItemPage = () =>{
             goodItemEmpty.style.display = 'block';
             btnGood.style.display = 'none';
         }
+
+        const checkWishList = () =>{
+            if (userData.wishList.includes(id)){
+                btnAddWishlist.classList.add('contains-wishlist');
+            } else{
+                btnAddWishlist.classList.add('contains-wishlist'); 
+                // TODO 2:24:39
+            }
+        };
         
     };
 

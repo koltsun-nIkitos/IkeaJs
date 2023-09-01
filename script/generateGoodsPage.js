@@ -1,7 +1,6 @@
 import { getData } from "./getData.js";
-
-const wishList = ['idd005', 'idd050', 'idd033'];
-
+import  userData  from "./userData.js";
+ 
 const COUNTER = 5;
 
 const generateGoodsPage = () =>{
