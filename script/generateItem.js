@@ -53,11 +53,22 @@ const generateItemPage = () =>{
             if (userData.wishList.includes(id)){
                 btnAddWishlist.classList.add('contains-wishlist');
             } else{
-                btnAddWishlist.classList.add('contains-wishlist'); 
-                // TODO 2:24:39
+                btnAddWishlist.classList.remove('contains-wishlist'); 
             }
         };
+
         
+        btnAddWishlist.addEventListener('click', ()=>{
+            userData.wishList = id;
+            checkWishList();
+        });
+
+        
+        btnGood.addEventListener('click', ()=>{
+            userData.cartList = id;
+        });
+
+        checkWishList();
     };
 
     if (location.hash && location.pathname.includes('card')){
